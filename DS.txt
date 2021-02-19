@@ -1,0 +1,16 @@
+supermall项目src目录结构
+
+assets:公共资源（照片、css）
+    1、css
+        base.css: (公共css,在normalize.css的基础上增加样式)
+        normalize.css: (统一浏览器默认样式)
+    2、img
+common:公共的js，css
+components：公共组件
+    1、common:可以重复性（别的项目也可以用）使用的组件
+    2、content：普通组件
+network:网络请求配置文件（axios）
+router：路由配置文件
+store：vuex配置文件
+views：大的视图（首页、购物车等）
+
