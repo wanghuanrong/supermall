@@ -1,13 +1,17 @@
 <template>
   <div id="home" class="wrapper">
-    首页
+    <navbar>
+      <div slot="conter">购物车</div>
+    </navbar>
   </div>
 </template>
 
 <script>
+  import navbar from '@/components/common/navbar/NavBar'
   export default {
     name: "Home",
     components: {
+      navbar
     },
     data() {
       return {

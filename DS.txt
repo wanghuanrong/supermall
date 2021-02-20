@@ -10,6 +10,8 @@ components：公共组件
     1、common:可以重复性（别的项目也可以用）使用的组件
     2、content：普通组件
 network:网络请求配置文件（axios）
+    1、request: 封装好的axios请求函数
+    2、home: 用来请求指定数据
 router：路由配置文件
 store：vuex配置文件
 views：大的视图（首页、购物车等）
