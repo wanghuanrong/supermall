@@ -5,6 +5,35 @@
     </navbar>
 
     <homeSwiper :banners="banners"></homeSwiper>
+
+    <recommendview :recommends="recommends"></recommendview>
+
+    <featureView></featureView>
+
+    <div>
+      <ul>
+        <li>列表1</li>
+        <li>列表2</li>
+        <li>列表3</li>
+        <li>列表4</li>
+        <li>列表5</li>
+        <li>列表6</li>
+        <li>列表7</li>
+        <li>列表8</li>
+        <li>列表9</li>
+        <li>列表10</li>
+        <li>列表11</li>
+        <li>列表12</li>
+        <li>列表13</li>
+        <li>列表14</li>
+        <li>列表15</li>
+        <li>列表16</li>
+        <li>列表17</li>
+        <li>列表18</li>
+        <li>列表19</li>
+        <li>列表20</li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -19,11 +48,17 @@
   // import {Swiper, SwiperItem} from '@/components/common/swiper/index'
   import homeSwiper from '@/views/home/childComps/homeSwiper'
 
+  // 推荐信息组件
+  import recommendview from '@/views/home/childComps/RecommendView'
+  import featureView from './childComps/FeatureView'
+
   export default {
     name: "Home",
     components: {
       navbar,
-      homeSwiper
+      homeSwiper,
+      recommendview,
+      featureView
     },
     data() {
       return {
