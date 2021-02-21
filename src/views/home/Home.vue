@@ -1,5 +1,5 @@
 <template>
-  <div id="home">
+  <div id="home"  class="wrapper">
     <navbar>
       <div slot="conter">购物车</div>
     </navbar>
@@ -10,6 +10,9 @@
 
     <featureView></featureView>
 
+    <tabcontrol :title="['流行','新款','精选']" @tabClick="tabClick"></tabcontrol>
+
+    <good-list :goods="showGoods"></good-list>
     <div>
       <ul>
         <li>列表1</li>
@@ -32,6 +35,66 @@
         <li>列表18</li>
         <li>列表19</li>
         <li>列表20</li>
+        <li>列表21</li>
+        <li>列表22</li>
+        <li>列表23</li>
+        <li>列表24</li>
+        <li>列表25</li>
+        <li>列表26</li>
+        <li>列表27</li>
+        <li>列表28</li>
+        <li>列表29</li>
+        <li>列表30</li>
+        <li>列表31</li>
+        <li>列表32</li>
+        <li>列表33</li>
+        <li>列表34</li>
+        <li>列表35</li>
+        <li>列表36</li>
+        <li>列表37</li>
+        <li>列表38</li>
+        <li>列表39</li>
+        <li>列表40</li>
+        <li>列表41</li>
+        <li>列表42</li>
+        <li>列表43</li>
+        <li>列表44</li>
+        <li>列表45</li>
+        <li>列表46</li>
+        <li>列表47</li>
+        <li>列表48</li>
+        <li>列表49</li>
+        <li>列表50</li>
+        <li>列表51</li>
+        <li>列表52</li>
+        <li>列表53</li>
+        <li>列表54</li>
+        <li>列表55</li>
+        <li>列表56</li>
+        <li>列表57</li>
+        <li>列表58</li>
+        <li>列表59</li>
+        <li>列表60</li>
+        <li>列表61</li>
+        <li>列表62</li>
+        <li>列表63</li>
+        <li>列表64</li>
+        <li>列表65</li>
+        <li>列表66</li>
+        <li>列表67</li>
+        <li>列表68</li>
+        <li>列表69</li>
+        <li>列表70</li>
+        <li>列表71</li>
+        <li>列表72</li>
+        <li>列表73</li>
+        <li>列表74</li>
+        <li>列表75</li>
+        <li>列表76</li>
+        <li>列表77</li>
+        <li>列表78</li>
+        <li>列表79</li>
+        <li>列表80</li>
       </ul>
     </div>
   </div>
@@ -42,7 +105,7 @@
   import navbar from '@/components/common/navbar/NavBar'
 
   // 得到首页数据的函数
-  import {getHomeMultidata} from '@/network/home'
+  import {getHomeMultidata, getHomeGoods} from '@/network/home'
 
   // 封装好的轮播图组件
   // import {Swiper, SwiperItem} from '@/components/common/swiper/index'
@@ -52,13 +115,22 @@
   import recommendview from '@/views/home/childComps/RecommendView'
   import featureView from './childComps/FeatureView'
 
+  // 流行、新款、精选 导航栏
+  import tabcontrol from '@/components/content/tabControl/TabControl'
+
+  // 列表组件
+  import GoodList from '@/components/content/goods/GoodsList'
+  
+
   export default {
     name: "Home",
     components: {
       navbar,
       homeSwiper,
       recommendview,
-      featureView
+      featureView,
+      tabcontrol,
+      GoodList
     },
     data() {
       return {
@@ -74,7 +146,13 @@
       }
     },
     created () {
+      // 请求导航栏数据（图片、文字）
       this.getHomeMultidata()
+
+      // 请求列表数据
+      this.getHomeGoods('pop')
+      this.getHomeGoods('new')
+      this.getHomeGoods('sell')
     },
     computed: {
       showGoods() {
@@ -123,7 +201,7 @@
           this.goods[type].list.push(...res.data.list)
           this.goods[type].page += 1
 
-          this.$refs.scroll.finishPullUp()
+          // this.$refs.scroll.finishPullUp()
         })
       }
     }
