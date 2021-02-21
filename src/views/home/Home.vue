@@ -1,17 +1,29 @@
 <template>
-  <div id="home" class="wrapper">
+  <div id="home">
     <navbar>
       <div slot="conter">购物车</div>
     </navbar>
+
+    <homeSwiper :banners="banners"></homeSwiper>
   </div>
 </template>
 
 <script>
+  // 头部导航栏（购物街）组件
   import navbar from '@/components/common/navbar/NavBar'
+
+  // 得到首页数据的函数
+  import {getHomeMultidata} from '@/network/home'
+
+  // 封装好的轮播图组件
+  // import {Swiper, SwiperItem} from '@/components/common/swiper/index'
+  import homeSwiper from '@/views/home/childComps/homeSwiper'
+
   export default {
     name: "Home",
     components: {
-      navbar
+      navbar,
+      homeSwiper
     },
     data() {
       return {
@@ -25,6 +37,9 @@
         currentType: 'pop',
         isShowBackTop: false
       }
+    },
+    created () {
+      this.getHomeMultidata()
     },
     computed: {
       showGoods() {

@@ -21,6 +21,7 @@ export default {
         top: 0;
         display: flex;
         background-color: #ff8198;
+        z-index: 10;
     }
 
     .nav-bar .left{
