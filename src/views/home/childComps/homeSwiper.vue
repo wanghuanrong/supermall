@@ -24,7 +24,7 @@ export default {
 </script>
 
 <style>
-.homeSwiper{
+/* .homeSwiper{
   margin-top: 50px;
-}
+} */
 </style>
