@@ -1,6 +1,6 @@
 <template>
   <div class="goods-item">
-    <img :src="goodsItem.show.img" alt="">
+    <img :src="goodsItem.show.img" alt="" @load="imageLoad">
     <div class="goods-info">
       <p>{{goodsItem.title}}</p>
       <span class="price">{{goodsItem.price}}</span>
@@ -18,6 +18,14 @@
         default() {
           return {}
         }
+      }
+    },
+    methods: {
+      imageLoad(){
+        // console.log("加载图片");
+        // 由于是要改变滚动组件（Scroll），又因为该组件和“我”没有直接联系，需要发射信息到home，再给滚动组件该麻烦，
+        // 这里通过$bus发射一个公共事件，通过原型保存，就不需要一层层发射
+        this.$bus.$emit("itemImageLoad")
       }
     }
   }

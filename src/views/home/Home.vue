@@ -1,16 +1,29 @@
 <template>
   <div id="home" class="wrapper">
-    <navbar  class="home-nav">
-      <div slot="conter">购物车</div>
+    <navbar class="home-nav">
+      <div slot="center">购物车</div>
     </navbar>
 
-    <scroll class="content" 
-            ref="scroll"
-            :probe-type="3"
-            :pull-up-load="true"
-            @scroll="contentScroll"
-            @pullingUp="loadMore">
-      <homeSwiper :banners="banners"></homeSwiper>
+    <tabcontrol
+      :title="['流行', '新款', '精选']"
+      @tabClick="tabClick"
+      ref="tabControl1"
+      class="tab-control"
+      v-show="isTabFixed"
+    ></tabcontrol>
+
+    <scroll
+      class="content"
+      ref="scroll"
+      :probe-type="3"
+      :pull-up-load="true"
+      @scroll="contentScroll"
+      @pullingUp="loadMore"
+    >
+      <homeSwiper
+        :banners="banners"
+        @swiperImageLoad="swiperImageLoad"
+      ></homeSwiper>
 
       <recommendview :recommends="recommends"></recommendview>
 
@@ -19,12 +32,12 @@
       <tabcontrol
         :title="['流行', '新款', '精选']"
         @tabClick="tabClick"
+        ref="tabControl2"
       ></tabcontrol>
 
       <good-list :goods="showGoods"></good-list>
     </scroll>
 
-    
     <backtop @click.native="backClick" v-show="isShowBackTop"></backtop>
   </div>
 </template>
@@ -54,7 +67,7 @@ import GoodList from "@/components/content/goods/GoodsList";
 import scroll from "@/components/common/scroll/Scroll";
 
 // 返回顶部组件
-import backtop from '@/components/content/backTop/BackTop'
+import backtop from "@/components/content/backTop/BackTop";
 
 export default {
   name: "Home",
@@ -79,6 +92,8 @@ export default {
       },
       currentType: "pop",
       isShowBackTop: false,
+      tabOffsetTop: 0,
+      isTabFixed: false,
     };
   },
   created() {
@@ -89,9 +104,21 @@ export default {
     this.getHomeGoods("pop");
     this.getHomeGoods("new");
     this.getHomeGoods("sell");
+
+    // 监听图片加载之后发送过来的时间
+    // this.$bus.$on("itemImageLoad", () => {
+    //   console.log("---");
+    //   this.$refs.scroll.refresh();
+    // });
   },
-  mounted () {
-    this.$refs.scroll.finishPullUp()
+  mounted() {
+    // 防抖动，如果每次加载图片之后都刷新滚动高度，非常印象效率。
+    // 使用这种方法，如果一小段时间内没有图片加载，再来执行
+    const refresh = this.debounce(this.$refs.scroll.refresh, 200);
+    this.$bus.$on("itemImageLoad", () => {
+      refresh();
+    });
+    // this.$refs.scroll.finishPullUp()
   },
   computed: {
     showGoods() {
@@ -102,6 +129,19 @@ export default {
     /**
      * 事件监听相关的方法
      */
+    swiperImageLoad() {
+      // console.log(this.$refs.tabControl2.$el.offsetTop);
+      this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
+    },
+    debounce(func, delay) {
+      let timer = null;
+      return function (...args) {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => {
+          func.apply(this, args);
+        }, delay);
+      };
+    },
     tabClick(index) {
       switch (index) {
         case 0:
@@ -114,15 +154,25 @@ export default {
           this.currentType = "sell";
           break;
       }
+      this.$refs.tabControl1.currentIndex = index;
+      this.$refs.tabControl2.currentIndex = index;
     },
     backClick() {
       this.$refs.scroll.scrollTo(0, 0);
     },
     contentScroll(position) {
       this.isShowBackTop = -position.y > 800;
+
+      // if(this.tabOffsetTop <= -position.y){
+      //   this.isTabFixed = true
+      // }else{
+      //   this.isTabFixed = false
+      // }
+
+      this.isTabFixed = (-position.y) > this.tabOffsetTop;
     },
     loadMore() {
-      console.log('上拉了！');
+      console.log("上拉了！");
       this.getHomeGoods(this.currentType);
       // this.$refs.scroll.scroll.refresh()
     },
@@ -142,7 +192,7 @@ export default {
         this.goods[type].list.push(...res.data.list);
         this.goods[type].page += 1;
 
-        this.$refs.scroll.finishPullUp()
+        this.$refs.scroll.finishPullUp();
       });
     },
   },
@@ -160,18 +210,18 @@ export default {
   background-color: var(--color-tint);
   color: #fff;
 
-  position: fixed;
+  /* position: fixed;
   left: 0;
   right: 0;
   top: 0;
-  z-index: 9;
+  z-index: 9; */
 }
 
-.tab-control {
+/* .tab-control {
   position: sticky;
   top: 44px;
   z-index: 9;
-}
+} */
 
 .content {
   overflow: hidden;
@@ -183,6 +233,10 @@ export default {
   right: 0;
 }
 
+.tab-control {
+  position: relative;
+  z-index: 999;
+}
 /*.content {*/
 /*height: calc(100% - 93px);*/
 /*overflow: hidden;*/

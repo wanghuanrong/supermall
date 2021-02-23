@@ -1,21 +1,25 @@
 <template>
   <div id="app" class="wrapper">
-    <router-view/>
-    <main-tab-bar/>
+    <!-- keep-alive 防止路由被销毁 -->
+    <keep-alive>
+      <router-view />
+    </keep-alive>
+
+    <main-tab-bar />
   </div>
 </template>
 
 <script>
-  import MainTabBar from '@/components/content/mainTabbar/MainTabBar'
+import MainTabBar from "@/components/content/mainTabbar/MainTabBar";
 
-  export default {
-    name: 'app',
-    components: {
-      MainTabBar
-    }
-  }
+export default {
+  name: "app",
+  components: {
+    MainTabBar,
+  },
+};
 </script>
 
 <style>
-  @import "./assets/css/base.css";
+@import "./assets/css/base.css";
 </style>
