@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="wrapper">
-    <!-- keep-alive 防止路由被销毁 -->
-    <keep-alive>
+    <!-- keep-alive 防止路由被销毁 include 设置不被销毁组件名（不设置表示所有组件不销毁）-->
+    <keep-alive include="Home">
       <router-view />
     </keep-alive>
 
