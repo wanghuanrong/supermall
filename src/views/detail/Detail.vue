@@ -1,14 +1,16 @@
 <template>
   <div class="detail">
     <detail-nav-bar class="detail-title" :title="title"></detail-nav-bar>
-    <scroll class="content1" ref="ccc"
-    :probeType="3"
-    :pullUpLoad="true">
+    <scroll class="content1" ref="ccc" :probeType="3" :pullUpLoad="true">
       <detail-swiper :topImages="topImages"></detail-swiper>
       <detail-base-info :goods="goods"></detail-base-info>
       <detail-shop-info :shop="shop"></detail-shop-info>
-      <detail-goods-info :detailInfo="detailInfo"  @imageLoad="imageLoad"></detail-goods-info>
+      <detail-goods-info
+        :detailInfo="detailInfo"
+        @imageLoad="imageLoad"
+      ></detail-goods-info>
       <detail-param-info :paramInfo="paramInfo"></detail-param-info>
+      <detail-comment-info :commentInfo="commentInfo"></detail-comment-info>
     </scroll>
   </div>
 </template>
@@ -20,6 +22,7 @@ import DetailBaseInfo from "./childComps/DetailBaseInfo";
 import DetailShopInfo from "./childComps/DetailShopInfo";
 import DetailGoodsInfo from "./childComps/DetailGoodsInfo";
 import DetailParamInfo from "./childComps/DetailParamInfo";
+import DetailCommentInfo from './childComps/DetailCommentInfo'
 
 // 滚动组件
 import Scroll from "@/components/common/scroll/Scroll";
@@ -36,6 +39,7 @@ export default {
       shop: {},
       detailInfo: {},
       paramInfo: {},
+      commentInfo: {},
     };
   },
   components: {
@@ -45,6 +49,7 @@ export default {
     DetailShopInfo,
     DetailGoodsInfo,
     DetailParamInfo,
+    DetailCommentInfo,
     Scroll,
   },
   created() {
@@ -64,22 +69,30 @@ export default {
         data.shopInfo.services
       );
 
-    //   获取店铺信息
+      //   获取店铺信息
       this.shop = new Shop(data.shopInfo);
 
-    // 获取商品详细信息
+      //   获取商品详细信息
       this.detailInfo = data.detailInfo;
 
-    //   获取参数的信息
-      this.paramInfo = new GoodsParam(data.itemParams.info, data.itemParams.rule);
+      //   获取参数的信息
+      this.paramInfo = new GoodsParam(
+        data.itemParams.info,
+        data.itemParams.rule
+      );
+
+      //   获取评论的信息
+      if (data.rate.cRate !== 0) {
+        this.commentInfo = data.rate.list[0];
+      }
     });
   },
-  methods:{
-      imageLoad(){
-          this.$refs.ccc.refresh();
-        //   console.log(this.$refs.ccc.scroll);
-      }
-  }
+  methods: {
+    imageLoad() {
+      this.$refs.ccc.refresh();
+      //   console.log(this.$refs.ccc.scroll);
+    },
+  },
 };
 </script>
 
@@ -91,14 +104,14 @@ export default {
   height: 100vh;
 }
 
-.detail-title{
-    position: relative;
-    z-index: 99;
-    background-color: #fff;
+.detail-title {
+  position: relative;
+  z-index: 99;
+  background-color: #fff;
 }
 
-.content1{
-    height: calc(100% - 44px);
-    /* overflow: hidden; */
+.content1 {
+  height: calc(100% - 44px);
+  /* overflow: hidden; */
 }
 </style>
