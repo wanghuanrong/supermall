@@ -3,7 +3,7 @@
       <swiper class="detailSwiper">
           <swiper-item v-for="(item, index) in topImages" :key="index">
               <!-- <a href=""> -->
-                  <img :src="item" alt="">
+                  <img :src="item" alt="" >
               <!-- </a> -->
           </swiper-item>
       </swiper>
@@ -26,9 +26,13 @@ export default {
     components:{
         Swiper,
         SwiperItem
+    },
+    methods:{
+        // imgaeLoad(){
+        //     this.$emit("imageLoad")
+        // }
     }
 }
-        Swiper
 </script>
 
 <style>
