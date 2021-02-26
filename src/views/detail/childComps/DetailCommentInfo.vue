@@ -11,7 +11,7 @@
               <span>{{commentInfo.created | showDate}}</span>
               <span>{{commentInfo.style}}</span>
           </div>
-          <div>
+          <div class="comment-img">
               <img :src="item" v-for="(item, index) in commentInfo.images" :key="index" alt="">
           </div>
       </div>
@@ -50,5 +50,14 @@ export default {
     font-weight: 600;
     text-align: center;
     line-height: 25px;
+}
+
+.comment-img{
+    display: flex;
+}
+
+.comment-img img{
+    width: 30%;
+    flex: 1;
 }
 </style>

@@ -22,7 +22,7 @@ export default {
             default(){
                 return []
             }
-        }
+        },
     },
     data(){
         return{
@@ -35,6 +35,7 @@ export default {
     methods:{
         datailClick(index){
             this.currIndex = index
+            this.$emit("navBarClick", index)
         },
         backClick(){
             this.$router.go(-1)
