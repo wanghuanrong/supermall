@@ -142,7 +142,7 @@ export default {
 
     // 获取推荐信息
     getRecommend().then((res) => {
-      console.log(res);
+      // console.log(res);
       this.recommends = res.data.list;
     });
   },
@@ -160,7 +160,7 @@ export default {
       // console.log(this.themeTopYs)
     },
     navBarClick(index) {
-      console.log(index);
+      // console.log(index);
       this.$refs.ccc.scrollTo(0, -this.themeTopYs[index], 200);
     },
     scroll(position) {
@@ -200,7 +200,8 @@ export default {
       product.price = this.goods.realPrice;
       product.iid = this.iid;
 
-      console.log(product);
+      // console.log(product);
+      this.$store.commit("addCart", product)
     }
   },
 };

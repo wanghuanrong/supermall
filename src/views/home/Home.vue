@@ -94,9 +94,11 @@ export default {
       isShowBackTop: false,
       tabOffsetTop: 0,
       isTabFixed: false,
+      saveY: 0,
     };
   },
   created() {
+    console.log('xxx');
     // 请求导航栏数据（图片、文字）
     this.getHomeMultidata();
 
@@ -119,6 +121,17 @@ export default {
       refresh();
     });
     // this.$refs.scroll.finishPullUp()
+  },
+  activated(){
+    this.$refs.scroll.refresh();
+    // console.log(this.saveY);
+    // 组件不销毁是，重新进入时触发
+    this.$refs.scroll.scrollTo(0, this.saveY, 0)
+  },
+  deactivated(){
+    // 组件不销毁时，离开组件时触发
+    this.saveY = this.$refs.scroll.scroll.y;
+    // console.log(this.saveY);
   },
   computed: {
     showGoods() {

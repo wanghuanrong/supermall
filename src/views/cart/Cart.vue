@@ -1,13 +1,36 @@
 <template>
-  <h2>购物车</h2>
+  <div class="cart">
+    <cart-list :cartList="cartList"></cart-list>
+  </div>
 </template>
 
 <script>
-  export default {
-    name: "Cart"
+import CartList from './childComps/CartList'
+
+export default {
+  name: "Cart",
+  data(){
+    return {
+      cartList:[]
+    }
+  },
+  components: {
+    CartList
+  },
+  created () {
+    console.log(this.cartList);
+    this.cartList = this.$store.state.cartList
   }
+};
 </script>
 
 <style scoped>
+.cart {
+  width: 100%;
+  overflow: hidden;
+}
 
+.cart img {
+  width: 70%;
+}
 </style>

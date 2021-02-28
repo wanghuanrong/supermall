@@ -38,7 +38,7 @@ export default {
             this.$emit("navBarClick", index)
         },
         backClick(){
-            this.$router.go(-1)
+            this.$router.replace("/home");
         }
     }
 }
